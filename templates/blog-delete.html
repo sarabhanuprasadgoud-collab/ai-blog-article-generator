@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post details</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+    <!--Navbar-->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <div>
+            <h1 class="text-3xl font-bold">AI Blog Generator</h1>
+        </div>
+        <div>
+            <!-- Show logged-in navbar -->
+            <a href="#" class="text-white hover:underline mx-4">Welcome, {{ user.username }}</a>
+            <a href="{% url 'logout' %}" class="text-white hover:underline">Log Out</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-10 px-4 sm:px-0">
+        <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow-md">
+            <section>
+                <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6 mt-8 text-center">
+                  <h2 class="text-xl font-bold text-gray-800 mb-6">Confirm Deletion</h2>
+                  
+                  <!-- Separate lines -->
+                  <p class="text-gray-600 mb-2">Are you sure you want to delete this blog?</p>
+                  <p class="text-lg font-semibold text-gray-900 mb-6">"{{ blog_article.youtube_title }}"</p>
+
+                  <form method="POST">
+                    {% csrf_token %}
+                    <button 
+                      type="submit" 
+                      class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition shadow-md">
+                      Yes, Delete
+                    </button>
+                    <a href="{% url 'blog-details' blog_article.id %}" class="block w-full text-center mt-4 bg-gray-300 text-black py-3 rounded-lg hover:bg-gray-400 transition shadow-md">
+                      Cancel
+                    </a>
+                  </form>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <footer class="text-center p-4 text-black mt-6">
+        Powered by <a href="https://www.youtube.com/@BhanuPrasadGoudS-od6qf">Bhanu Prasad Goud</a>
+    </footer>
+    
+</body>
+</html>

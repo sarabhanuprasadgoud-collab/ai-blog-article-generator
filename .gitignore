@@ -1,0 +1,53 @@
+# ======================
+# Python
+# ======================
+# Python cache folders everywhere.
+__pycache__/            
+*.py[cod]               
+*.pyo
+*.pyd
+
+# ======================
+# Virtual Environments
+# ======================
+# your virtual environment.
+virtual_envi/
+venv/
+env/
+
+# ======================
+# Django
+# ======================
+# Database (your local database only)
+db.sqlite3
+
+# cache files (auto-generated).
+django_cache/*
+
+# Add an empty .gitkeep inside if you want to keep the folder itself.
+!django_cache/.gitkeep
+
+# User-uploaded media files (optional, usually not stored in GitHub).
+media/
+
+# Static files collected by 'collectstatic'
+staticfiles/
+
+# ======================
+# Environment & Secrets
+# ======================
+# ignored for security (SECRET_KEY, database passwords, etc.).
+.env
+
+# ======================
+# Logs
+# ======================
+*.log
+
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+*.swp

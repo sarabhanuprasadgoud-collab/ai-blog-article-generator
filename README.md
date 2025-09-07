@@ -1,6 +1,3 @@
-git add README.md
-git commit -m "Update README: Docker, Gunicorn, Nginx, Neon Postgres and Docker commands"
-git push origin main
 # Django AI Blog Generator 🤖📝
 
 **⭐ This project demonstrates **AI + Django + YouTube Integration + Deployment skills** → perfect for resumes & portfolios.** 
@@ -399,6 +396,7 @@ For major changes, please open an issue first to discuss what you’d like to ch
 
 
 ---
+
 
 
 

@@ -60,7 +60,7 @@ This project combines YouTube transcript extraction, Whisper transcription, and 
 ai_blog_app_project/<br>
 │<br>
 ├── Back-End/                       # Main Django backend<br>
-│   ├── ai_blog_app_envi/           # Django project folder<br>
+│   ├── ai_blog_blog_generator/           # Django project folder<br>
 │   │   ├── ai_blog_app/            # Core Django project (settings, urls, wsgi, asgi)<br>
 │   │   │   ├── __init__.py<br>
 │   │   │   ├── asgi.py<br>
@@ -82,6 +82,9 @@ ai_blog_app_project/<br>
 │   │   ├── media/                  # User-uploaded media (ignored in GitHub)<br>
 │   │   ├── static/                 # Project static assets (favicon, css, js) <br>
 │   │   ├── staticfiles/            # Auto-generated static files (ignored in GitHub)<br>       
+│   │   ├── nginx/                  # for nginx <br>     
+│   │   │   └── nginx.conf<br>
+│   │   │<br>
 │   │   ├── templates/              # HTML templates for backend<br>
 │   │   │   ├── index.html<br>
 │   │   │   ├── login.html<br>
@@ -92,7 +95,11 @@ ai_blog_app_project/<br>
 │   │   │<br>
 │   │   ├── .env                    # .env file (ignored in GitHub)<br>
 │   │   ├── db.sqlite3              # SQLite database (ignored in GitHub)<br>
-│   │   └── manage.py               # Django management script<br>
+│   │   ├── docker-compose.yml      # Docker YML File for Containerization <br>
+│   │   ├── Dockerfile              # Docker File for Containerization <br>
+│   │   ├── manage.py               # Django management script<br>
+│   │   ├── requirements-linux.txt  # Main requirements file for Linux(for deployment)<br>
+│   │   └── requirements.txt        # Main requirements file (for deployment)<br>
 │   |<br>
 │   └── virtual_envi/<br>
 │<br>
@@ -104,8 +111,10 @@ ai_blog_app_project/<br>
 │   └── blog-details.html<br>
 │<br>
 ├── screenshots/                    # screenshots of the application<br>
-│<br>
+│<br> 
 ├── .gitignore                      # Ignore unnecessary files/folders<br>
+│<br>
+├── requirements-linux.txt          # Main requirements file for Linux(for deployment)<br>
 │<br>
 ├── requirements.txt                # Main requirements file (for deployment)<br>
 │<br>
@@ -329,3 +338,4 @@ For major changes, please open an issue first to discuss what you’d like to ch
 
 
 ---
+

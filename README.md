@@ -42,6 +42,16 @@ This project combines YouTube transcript extraction, Whisper transcription, and 
 ## Backend: 
 - Django
 
+## Containerization & Orchestration:
+- Docker
+- Docker Compose
+
+## WSGI / App Server:
+- Gunicorn
+
+## Reverse Proxy / Static Server:
+- Nginx
+  
 ## AI Models:
 - OpenAI Whisper (local transcription)
 - Google Gemini (content generation)
@@ -51,7 +61,8 @@ This project combines YouTube transcript extraction, Whisper transcription, and 
 - youtube-transcript-api (captions fetch)
 
 ## Database: 
-- SQLite (default, can swap for PostgreSQL)
+- Primary: Neon Postgres (use `DATABASE_URL` in `.env` for connection)
+- Local fallback: SQLite (used if `DATABASE_URL` is not set)
 
 ---
 
@@ -130,7 +141,7 @@ ai_blog_app_project/<br>
     cd ai_blog_app/Back-End/ai_blog_app
     ```
 
-2. **Create and activate a virtual environment**<br>
+2. **Create and activate a virtual environment** (Optional local dev) <br>
     python -m venv venv<br>
     venv\Scripts\activate.bat       # On Windows<br>
     source venv/bin/activate        # On macOS/Linux<br>
@@ -138,6 +149,7 @@ ai_blog_app_project/<br>
 
 3. **Install dependencies**<br>
     pip install -r requirements.txt<br>
+    pip install -r requirements-linux.txt
 
 4. **Set up environment variables**<br>
     - Create a .env file inside Back-End/ai_blog_app/ai_blog_app/
@@ -338,4 +350,5 @@ For major changes, please open an issue first to discuss what you’d like to ch
 
 
 ---
+
 

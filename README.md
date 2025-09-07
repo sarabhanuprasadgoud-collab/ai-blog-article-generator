@@ -1,4 +1,7 @@
-﻿﻿# Django AI Blog Generator 🤖📝
+git add README.md
+git commit -m "Update README: Docker, Gunicorn, Nginx, Neon Postgres and Docker commands"
+git push origin main
+# Django AI Blog Generator 🤖📝
 
 **⭐ This project demonstrates **AI + Django + YouTube Integration + Deployment skills** → perfect for resumes & portfolios.** 
 
@@ -149,7 +152,7 @@ ai_blog_app_project/<br>
 
 3. **Install dependencies**<br>
     pip install -r requirements.txt<br>
-    pip install -r requirements-linux.txt
+    pip install -r requirements-linux.txt<br>
 
 4. **Set up environment variables**<br>
     - Create a .env file inside Back-End/ai_blog_app/ai_blog_app/
@@ -168,11 +171,56 @@ ai_blog_app_project/<br>
 7. **Create Superuser**<br>
     python manage.py createsuperuser   # Optional (to access Django admin)
 
-8. **Start the server**<br>
+8. **Start the server**(Run locally as a development server)<br>
     python manage.py runserver
 
 9. **Now open below Link**<br>
     👉 http://127.0.0.1:8000/
+   
+8. **Run with Docker & Nginx** (recommended)<br>
+    ```docker-compose up --build
+    # or detached:
+    docker-compose up -d --build
+    ```
+
+9. **Apply DB migrations inside the container**
+    ```docker-compose exec web python manage.py migrate
+    ```
+    
+11. **Collect static files for Nginx to Serve**
+    ```docker-compose exec web python manage.py collectstatic --noinput
+    ```
+    
+12. **Create a superuser inside the container**
+    ```docker-compose exec web python manage.py createsuperuser
+    ```
+    
+13. **Stop services**
+    ```docker-compose down
+    ```
+    
+---
+
+## 🚀 Running with Docker & Nginx:
+
+**Build and start**
+  ```docker-compose up --build
+  ```
+
+**Start in background**
+  ```docker-compose up -d --build
+  ```
+
+**Collect static & run migrations**
+  ```docker-compose exec web python manage.py migrate
+     docker-compose exec web python manage.py collectstatic --noinput
+  ```
+---
+
+## Access
+- Nginx (reverse-proxied): `http://localhost`  
+- Direct to Gunicorn (if needed): `http://localhost:8000`
+
 
 ---
 
@@ -252,7 +300,7 @@ curl -X POST http://127.0.0.1:8000/generate_blog/ \
 - Requires FFmpeg installed & added to PATH (for yt-dlp audio processing).
 - Whisper model loads once at server start (default: tiny).
 - Blog outputs are cached for 24 hours for performance.
-
+- Windows users: enable virtualization & WSL2, install Docker Desktop, and enable WSL integration. Docker builds use a Linux container backend.
 ---
 
 ## 🌍 Deployment<br>
@@ -327,6 +375,7 @@ Docker Compose → Orchestrates multi-container setup.
 
 ⚠️ Never commit your `.env` file or secret keys.  
 Always use `.gitignore` to keep sensitive data out of GitHub. 
+Never commit your `.env`. The `docker-compose.yml` uses `env_file: - .env` to load secrets into the container—keep `.env` in `.gitignore`.
 
 ---
 
@@ -350,5 +399,6 @@ For major changes, please open an issue first to discuss what you’d like to ch
 
 
 ---
+
 
 

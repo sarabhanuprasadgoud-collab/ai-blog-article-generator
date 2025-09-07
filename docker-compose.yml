@@ -1,0 +1,73 @@
+# -------------------------------------------------------------------------
+# Project notes & usage (paste this at the top of docker-compose.yml)
+#
+# Quick overview:
+# - web: runs Django (Gunicorn) on port 8000 inside the container.
+# - nginx: listens on port 80 and proxies requests to web, also serves static files.
+# - No local DB service: DATABASE_URL in .env points to your Neon Postgres instance.
+#
+# How it works:
+# - Docker builds the web image from the Dockerfile and starts web (Gunicorn).
+# - Nginx forwards user requests (http://localhost) to Gunicorn at web:8000.
+# - Static files are collected by Django into the shared static volume so Nginx can serve them directly.
+#
+# Important runtime commands (run from project root):
+# 1) Build and start services:
+#      docker-compose up --build
+#
+# 2) Run migrations (after containers start):
+#      docker-compose exec web python manage.py migrate
+#
+# 3) Collect static files so Nginx can serve them:
+#      docker-compose exec web python manage.py collectstatic --noinput
+#
+# 4) Create admin user (optional):
+#      docker-compose exec web python manage.py createsuperuser
+#
+# 5) View running containers:
+#      docker-compose ps
+#
+# 6) Stop services:
+#      docker-compose down
+#
+# Notes & caveats:
+# - env_file: .env is read into the web container (contains DATABASE_URL, GOOGLE API keys, SECRET_KEY, etc).
+# - Because you use Neon Postgres, there is no local db service; ensure your DATABASE_URL is valid and reachable from the container.
+# - depends_on only controls start order; it does NOT guarantee the DB is fully ready. For production use a "wait-for" script or retry logic.
+# - volumes: using a bind mount (.:/app) enables live code edits in development. For production, prefer copying source into the image and not using bind mounts.
+# - To serve HTTPS in production, add an SSL layer (letsencrypt + proxy) or use a platform that provides automatic TLS.
+#
+# Access:
+# - After docker-compose up, open: http://localhost  (Nginx) or http://localhost:8000 (direct to Gunicorn)
+#
+# -------------------------------------------------------------------------
+version: "3.9"                    # Compose file version
+
+services:
+  web:                            # The name of our service (Django app)
+    build: .                      # Use the Dockerfile in the current directory to build the image
+    container_name: django_app    # Name for the container
+    command: gunicorn ai_blog_app.wsgi:application --bind 0.0.0.0:8000  # Start Gunicorn
+    ports:
+      - "8000:8000"               # Map container port 8000 to host port 8000, Expose port 8000 to host
+    env_file:
+      - .env                      # Load environment variables, including DATABASE_URL and API keys from your .env file
+    volumes:
+      - .:/app                    # Mount current directory into /app in container
+      - static_volume:/app/static # Allows live code changes without rebuilding
+    restart: unless-stopped       # Restart policy for resilience
+
+  nginx:                          # Nginx service for reverse proxy and static file handling
+    image: nginx:latest           # Use official lightweight Nginx image
+    container_name: nginx_server  # Container name
+    ports:
+      - "80:80"                   # Maps host port 80 to container port 80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf   # Mount your Nginx config      
+      - static_volume:/app/static                           # Mount Django static files
+    depends_on:
+      - web                       # Ensure Django service starts before Nginx
+    restart: unless-stopped
+
+volumes:
+  static_volume:                  # Volume for Django persistent/static files

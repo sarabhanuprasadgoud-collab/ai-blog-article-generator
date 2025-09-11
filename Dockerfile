@@ -50,7 +50,7 @@ ENV PYTHONUNBUFFERED=1
 RUN python manage.py collectstatic --noinput || true
 
 #Collect static (uploads to clodinaryif configured)
-RUN python manage.py migrate --noinput
+# RUN python manage.py migrate --noinput
 
 # Expose Render port(Render sets $PORT automatically)
 EXPOSE $PORT
@@ -63,6 +63,7 @@ CMD service nginx start && \
     gunicorn ai-blog-article-generator:wsgi:application \
     --bind 0.0.0.0:$PORT \
     --workers=2 --threads=2 --timeout=120
+
 
 
 

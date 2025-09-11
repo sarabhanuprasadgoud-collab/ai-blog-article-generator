@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     build-essential \
     libpq-dev \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
@@ -28,9 +29,10 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install only runtime packages(lighter than full build)
-RUN apt-get update && apt-get install -y nginx\
+RUN apt-get update && apt-get install -y \
     ffmpeg \
     libpq-dev \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy installed site-packages from builder
@@ -74,6 +76,7 @@ RUN chmod +x /app/entrypoint.sh
 
 # Start the entrypoint script
 CMD ["./entrypoint.sh"]
+
 
 
 

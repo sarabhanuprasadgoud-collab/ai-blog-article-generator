@@ -46,13 +46,15 @@ ENV PYTHONUNBUFFERED=1
 #Cllect static (uploads to clodinaryif configured)
 RUN python manage.py collectstatic --noinput || true
 
-# Expose port
+# Expose Render port
 EXPOSE 10000
 
 # Run Django server
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
-# Start Gunicorn (2 workers safe for Render free tier)
-CMD gunicorn ai-blog-article-generator:wsgi:application \
+# Start Nginx + Gunicorn (2 workers safe for Render free tier)
+CMD servicengix start && \
+    gunicorn ai-blog-article-generator:wsgi:application \
     --bind 0.0.0.0:10000 \
     --workers=2 --threads=2 --timeout=120
+

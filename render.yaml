@@ -1,2 +1,8 @@
-service:
+services:
   - type: web
+    name: ai-blog-generator
+    env: docker
+    repo: https://github.com/sarabhanupraadgoud-collab/ai-blog-article-generator
+    branch: main
+    plan: free
+    autoDeploy: true

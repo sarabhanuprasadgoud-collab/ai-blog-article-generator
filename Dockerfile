@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY requirements-linux.txt.
+COPY requirements-linux.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements-linux.txt
@@ -60,3 +60,4 @@ CMD servicengix start && \
     gunicorn ai-blog-article-generator:wsgi:application \
     --bind 0.0.0.0:10000 \
     --workers=2 --threads=2 --timeout=120
+

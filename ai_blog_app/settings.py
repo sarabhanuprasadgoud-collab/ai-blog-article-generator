@@ -147,6 +147,15 @@ STATICFILES_STORAGE = "cloudinary_storage.storage.StaticHashedCloudinaryStorage"
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
+# ---------------------------------------------------------
+# CACHE SETTINGS : File-based cache for transcripts & blogs
+# ---------------------------------------------------------
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache_table",  
+    }
+}
 #'''
 
 '''
@@ -166,7 +175,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # ---------------------------------------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-'''
 
 # ---------------------------------------------------------
 # CACHE SETTINGS : File-based cache for transcripts & blogs
@@ -177,7 +185,7 @@ CACHES = {
         "LOCATION": os.path.join(BASE_DIR, "django_cache"),  # cache folder
     }
 }
-
+'''
 
 # ---------------------------------------------------------
 # AUTHENTICATION

@@ -6,3 +6,5 @@ services:
     branch: main
     plan: free
     autoDeploy: true
+    buildCommand: "./manage.py collectstatic --noinput"
+    startCommand: "gunicorn ai-blog-article-generator.wsgi:application --workers=2 --timeout-120"

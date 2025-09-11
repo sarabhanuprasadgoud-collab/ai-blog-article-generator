@@ -34,16 +34,19 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy installed site-packages from builder
-COPY --from=builder /usr/local/lib/python3.11/usr/local/lib/python3.11
-COPY --from=builder /usr/local/bin/usr/local/bin
+COPY --from=builder /usr/local/lib/python3.11 /usr/local/lib/python3.11
+COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy project files
 COPY . .
 
+# Copy Nginx config
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 
-#Cllect static (uploads to clodinaryif configured)
+#Collect static (uploads to clodinaryif configured)
 RUN python manage.py collectstatic --noinput || true
 
 # Expose Render port
@@ -57,4 +60,3 @@ CMD servicengix start && \
     gunicorn ai-blog-article-generator:wsgi:application \
     --bind 0.0.0.0:10000 \
     --workers=2 --threads=2 --timeout=120
-

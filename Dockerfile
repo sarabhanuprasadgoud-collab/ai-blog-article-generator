@@ -56,8 +56,9 @@ EXPOSE 10000
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 # Start Nginx + Gunicorn (2 workers safe for Render free tier)
-CMD servicengix start && \
+CMD service nginx start && \
     gunicorn ai-blog-article-generator:wsgi:application \
     --bind 0.0.0.0:10000 \
     --workers=2 --threads=2 --timeout=120
+
 

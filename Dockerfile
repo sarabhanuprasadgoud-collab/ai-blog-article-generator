@@ -28,7 +28,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install only runtime packages(lighter than full build)
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y nginx\
     ffmpeg \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
@@ -49,8 +49,8 @@ ENV PYTHONUNBUFFERED=1
 #Collect static (uploads to clodinaryif configured)
 RUN python manage.py collectstatic --noinput || true
 
-# Expose Render port
-EXPOSE 10000
+# Expose Render port(Render sets $PORT automatically)
+EXPOSE $PORT
 
 # Run Django server
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -58,7 +58,8 @@ EXPOSE 10000
 # Start Nginx + Gunicorn (2 workers safe for Render free tier)
 CMD service nginx start && \
     gunicorn ai-blog-article-generator:wsgi:application \
-    --bind 0.0.0.0:10000 \
+    --bind 0.0.0.0:$PORT \
     --workers=2 --threads=2 --timeout=120
+
 
 

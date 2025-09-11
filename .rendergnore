@@ -1,0 +1,8 @@
+*.log
+*.csv
+*.json
+*.zip
+*.tar
+*.gz
+/media
+/static

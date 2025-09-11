@@ -73,3 +73,5 @@ youtube-transcript-api==0.6.2
 yt-dlp==2025.8.27
 gunicorn==21.2.0  # Production server for Django
 django-redis==5.4.0 # For redis caching
+cloudinary==1.41.0
+django-cloudinary-storage==0.3.0

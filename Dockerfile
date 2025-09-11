@@ -40,14 +40,18 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy project files
 COPY . .
 
-# Copy Nginx config
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 
+# Remove default nginx config
+RUN rm /etc/nginx/sites-enabled/default
+
+# Copy Nginx config
+COPY nginx/nginx.conf /etc/nginx/sites-available/nginx.conf
+RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
+
 #Collect static (uploads to clodinaryif configured)
-RUN python manage.py collectstatic --noinput || true
+# RUN python manage.py collectstatic --noinput || true
 
 #Collect static (uploads to clodinaryif configured)
 # RUN python manage.py migrate --noinput
@@ -59,10 +63,19 @@ EXPOSE $PORT
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 # Start Nginx + Gunicorn (2 workers safe for Render free tier)
-CMD service nginx start && \
-    gunicorn ai-blog-article-generator:wsgi:application \
-    --bind 0.0.0.0:$PORT \
-    --workers=2 --threads=2 --timeout=120
+#CMD service nginx start && \
+#    gunicorn ai-blog-article-generator:wsgi:application \
+#    --bind 0.0.0.0:$PORT \
+#    --workers=2 --threads=2 --timeout=120
+
+# Copy and set entrypoint
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Start the entrypoint script
+CMD ["./entrypoint.sh"]
+
+
 
 
 

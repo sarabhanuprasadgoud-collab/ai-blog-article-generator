@@ -3,6 +3,7 @@ services:
     name: ai-blog-article-generator
     env: docker
     dockerPath: ./Dockerfile
+    dockerContext: .
     repo: https://github.com/sarabhanupraadgoud-collab/ai-blog-article-generator
     branch: main
     plan: free

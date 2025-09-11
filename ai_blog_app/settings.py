@@ -153,9 +153,15 @@ MEDIA_URL = '/media/'
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "django_cache_table",  
+        "LOCATION": os.environ.get("REDIS_URL"), # from Render
+        "OPTIONS":{
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SSL": True, # because RenderRedis is redis://(TLS)
+            "PASSWORD": os.environ.get("REDIS_PASSWORD",""), # optional
+        }
     }
 }
+
 #'''
 
 '''
